@@ -840,7 +840,7 @@ MonoBehaviour:
   timeToCompleteQuestion: 20
   timeToShowAnswer: 10
   timerImage: {fileID: 1026157909}
-  timerValue: 0
+  isAnsweringQuestion: 0
 --- !u!4 &536387747
 Transform:
   m_ObjectHideFlags: 0
@@ -1110,7 +1110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -125}
+  m_AnchoredPosition: {x: -100, y: -130}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1026157909
