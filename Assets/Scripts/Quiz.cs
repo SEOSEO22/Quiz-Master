@@ -5,12 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Reflection;
+using Random = UnityEngine.Random;
 
 public class Quiz : MonoBehaviour
 {
     [Header("Questions")]
     [SerializeField] TextMeshProUGUI questionText;
-    [SerializeField] QuestionSO question;
+    [SerializeField] List<QuestionSO> questions = new List<QuestionSO>();
+    QuestionSO currentQuestion;
 
     [Header("Answers")]
     [SerializeField] GameObject[] answerButton;
@@ -31,7 +33,6 @@ public class Quiz : MonoBehaviour
     private void Start()
     {
         timer = FindObjectOfType<Timer>();
-        GetNextQuestion();
     }
 
     private void Update()
@@ -54,20 +55,37 @@ public class Quiz : MonoBehaviour
     // 다음 질문을 설정하는 메서드
     void GetNextQuestion()
     {
-        SetButtonState(true);
-        SetDefaultButtonSprites();
-        DesplayQuestion();
+        if (questions.Count != 0)
+        {
+            SetButtonState(true);
+            SetDefaultButtonSprites();
+
+            GetRandomQuestion();
+            DesplayQuestion();
+        }
+    }
+
+    // 리스트 내 질문을 랜덤으로 선별하는 메서드
+    void GetRandomQuestion()
+    {
+        int index = Random.Range(0, questions.Count);
+        currentQuestion = questions[index];
+        
+        if (questions.Contains(currentQuestion))
+        {
+            questions.Remove(currentQuestion);
+        }
     }
 
     // 질문과 답변 텍스트를 설정하는 메서드
     void DesplayQuestion()
     {
-        questionText.text = question.GetQuestion();
+        questionText.text = currentQuestion.GetQuestion();
 
         for (int i = 0; i < answerButton.Length; i++)
         {
             answerText = answerButton[i].GetComponentInChildren<TextMeshProUGUI>();
-            answerText.text = question.GetAnswer(i);
+            answerText.text = currentQuestion.GetAnswer(i);
         }
     }
 
@@ -84,7 +102,7 @@ public class Quiz : MonoBehaviour
     // 정답을 알려주는 메서드
     void DisplayAnswer(int index)
     {
-        answerIndex = question.GetCorrectAnswerIndex();
+        answerIndex = currentQuestion.GetCorrectAnswerIndex();
         buttonImage = answerButton[answerIndex].GetComponent<Image>();
 
         if (index == answerIndex)
@@ -94,7 +112,7 @@ public class Quiz : MonoBehaviour
         }
         else
         {
-            questionText.text = "틀렸습니다!\n정답은 " + question.GetAnswer(answerIndex) + "입니다.";
+            questionText.text = "틀렸습니다!\n정답은 " + currentQuestion.GetAnswer(answerIndex) + "입니다.";
 
             if (index != -1)
             {

@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   question: "\uB300\uD55C\uBBFC\uAD6D\uC758 \uAC00\uC7A5 \uB192\uC740 \uC0B0\uC740
     \uBB34\uC5C7\uC778\uAC00\uC694?"
+  answers:
+  - "\uD55C\uB77C\uC0B0"
+  - "\uAD00\uC545\uC0B0"
+  - "\uC9C0\uB9AC\uC0B0"
+  - "\uC124\uC545\uC0B0"
+  correctAnswerIndex: 0

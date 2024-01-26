@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Question 3
   m_EditorClassIdentifier: 
   question: "\uB300\uD55C\uC81C\uAD6D\uC744 \uC2DD\uBBFC\uC9C0\uB85C \uCE68\uB7B5\uD55C
-    \uC77C\uBCF8\uC740 \uBA87 \uB144 \uB3D9\uC548 \uB300\uD55C\uC81C\uAD6D\uC744
+    \uC77C\uBCF8\uC740\n\uBA87 \uB144 \uB3D9\uC548 \uB300\uD55C\uBBFC\uAD6D\uC744
     \uC9C0\uBC30\uD588\uB098\uC694?"
+  answers:
+  - "34\uB144"
+  - "30\uB144"
+  - "31\uB144"
+  - "35\uB144"
+  correctAnswerIndex: 3
