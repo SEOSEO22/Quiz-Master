@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] float timeToCompleteQuestion = 20f;
-    [SerializeField] float timeToShowAnswer = 10f;
-    public bool LoadNextQuestion;
+    [SerializeField] float timeToCompleteQuestion = 10f;
+    [SerializeField] float timeToShowAnswer = 5f;
+    public bool loadNextQuestion;
     public bool isAnsweringQuestion = false;
     public float fillFraction;
     float timerValue;
@@ -48,7 +48,7 @@ public class Timer : MonoBehaviour
             {
                 isAnsweringQuestion = true;
                 timerValue = timeToCompleteQuestion;
-                LoadNextQuestion = true;
+                loadNextQuestion = true;
             }
         }
     }

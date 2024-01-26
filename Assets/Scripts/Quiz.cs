@@ -4,21 +4,51 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Reflection;
 
 public class Quiz : MonoBehaviour
 {
+    [Header("Questions")]
     [SerializeField] TextMeshProUGUI questionText;
     [SerializeField] QuestionSO question;
+
+    [Header("Answers")]
     [SerializeField] GameObject[] answerButton;
+    int answerIndex;
+    bool hasAnsweredEarly;
+    TextMeshProUGUI answerText;
+
+    [Header("Button")]
     [SerializeField] Sprite correctAnswerSprite;
     [SerializeField] Sprite defaultAnswerSprite;
-    int answerIndex;
     Image buttonImage;
-    TextMeshProUGUI answerText;
+
+    [Header("Timer")]
+    [SerializeField] Image timerImage;
+    Timer timer;
+    
 
     private void Start()
     {
+        timer = FindObjectOfType<Timer>();
         GetNextQuestion();
+    }
+
+    private void Update()
+    {
+        timerImage.fillAmount = timer.fillFraction;
+
+        if (timer.loadNextQuestion)
+        {
+            hasAnsweredEarly = false;
+            GetNextQuestion();
+            timer.loadNextQuestion = false;
+        }
+        else if (!hasAnsweredEarly && !timer.isAnsweringQuestion)
+        {
+            DisplayAnswer(-1);
+            SetButtonState(false);
+        }
     }
 
     // 다음 질문을 설정하는 메서드
@@ -41,11 +71,21 @@ public class Quiz : MonoBehaviour
         }
     }
 
-    // 정답/오답 선택 시 상호작용을 나타내는 메서드
+    // 답변 버튼 선택 시 상호작용을 나타내는 메서드
     public void OnAnswerSelected(int index)
     {
+        hasAnsweredEarly = true;
+        DisplayAnswer(index);
+
+        SetButtonState(false);
+        timer.cancleTimer();
+    }
+
+    // 정답을 알려주는 메서드
+    void DisplayAnswer(int index)
+    {
         answerIndex = question.GetCorrectAnswerIndex();
-        buttonImage = answerButton[index].GetComponent<Image>();
+        buttonImage = answerButton[answerIndex].GetComponent<Image>();
 
         if (index == answerIndex)
         {
@@ -54,14 +94,19 @@ public class Quiz : MonoBehaviour
         }
         else
         {
-            questionText.text = "오답!\n정답은 " + question.GetAnswer(answerIndex) + "입니다.";
+            questionText.text = "틀렸습니다!\n정답은 " + question.GetAnswer(answerIndex) + "입니다.";
 
-            buttonImage.color = new Color32(255, 130, 130, 120);
-            buttonImage = answerButton[answerIndex].GetComponent<Image>();
-            buttonImage.sprite = correctAnswerSprite;
+            if (index != -1)
+            {
+                buttonImage.sprite = correctAnswerSprite;
+                buttonImage = answerButton[index].GetComponent<Image>();
+                buttonImage.color = new Color32(255, 130, 130, 120);
+            }
+            else
+            {
+                buttonImage.sprite = correctAnswerSprite;
+            }
         }
-
-        SetButtonState(false);
     }
 
     // 버튼을 비활성화 상태로 만드는 메서드
@@ -81,6 +126,7 @@ public class Quiz : MonoBehaviour
         {
             buttonImage = answerButton[i].GetComponent<Image>();
             buttonImage.sprite = defaultAnswerSprite;
+            buttonImage.color = new Color32(255, 255, 255, 255);
         }
     }
 }
