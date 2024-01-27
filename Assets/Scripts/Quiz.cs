@@ -28,11 +28,16 @@ public class Quiz : MonoBehaviour
     [Header("Timer")]
     [SerializeField] Image timerImage;
     Timer timer;
+
+    [Header("Score")]
+    [SerializeField] TextMeshProUGUI scoreText;
+    ScoreKeeper scoreKeeper;
     
 
     private void Start()
     {
         timer = FindObjectOfType<Timer>();
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
     }
 
     private void Update()
@@ -62,6 +67,7 @@ public class Quiz : MonoBehaviour
 
             GetRandomQuestion();
             DesplayQuestion();
+            scoreKeeper.setquestionsSeen();
         }
     }
 
@@ -99,7 +105,7 @@ public class Quiz : MonoBehaviour
         timer.cancleTimer();
     }
 
-    // 정답을 알려주는 메서드
+    // 정답 여부를 알려주는 메서드
     void DisplayAnswer(int index)
     {
         answerIndex = currentQuestion.GetCorrectAnswerIndex();
@@ -108,6 +114,7 @@ public class Quiz : MonoBehaviour
         if (index == answerIndex)
         {
             questionText.text = "정답!";
+            scoreKeeper.setCorrectAnswers();
             buttonImage.sprite = correctAnswerSprite;
         }
         else
@@ -125,6 +132,8 @@ public class Quiz : MonoBehaviour
                 buttonImage.sprite = correctAnswerSprite;
             }
         }
+
+        scoreText.text = "Score : " + scoreKeeper.CaculateScore() + "%";
     }
 
     // 버튼을 비활성화 상태로 만드는 메서드
