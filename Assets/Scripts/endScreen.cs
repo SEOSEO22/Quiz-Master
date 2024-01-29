@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class endScreen : MonoBehaviour
+public class EndScreen : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
     ScoreKeeper scorekeeper;

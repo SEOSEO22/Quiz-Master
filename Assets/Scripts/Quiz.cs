@@ -17,7 +17,7 @@ public class Quiz : MonoBehaviour
     [Header("Answers")]
     [SerializeField] GameObject[] answerButton;
     int answerIndex;
-    bool hasAnsweredEarly;
+    bool hasAnsweredEarly = true;
     TextMeshProUGUI answerText;
 
     [Header("Button")]
@@ -53,6 +53,8 @@ public class Quiz : MonoBehaviour
 
         if (timer.loadNextQuestion)
         {
+            if (slider.value == slider.maxValue) isComplete = true;
+
             hasAnsweredEarly = false;
             GetNextQuestion();
             timer.loadNextQuestion = false;
@@ -119,8 +121,6 @@ public class Quiz : MonoBehaviour
     {
         answerIndex = currentQuestion.GetCorrectAnswerIndex();
         buttonImage = answerButton[answerIndex].GetComponent<Image>();
-
-        if (slider.value == slider.maxValue) isComplete = true;
 
         if (index == answerIndex)
         {
